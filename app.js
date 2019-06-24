@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 
-const usersRoutes = require('./api/routes/users');
+const gameRoutes = require('./api/routes/game');
 
 const bodyParser = require('body-parser');
 
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/users', usersRoutes);
+app.use('/game', gameRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not found');
