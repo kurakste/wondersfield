@@ -1,5 +1,6 @@
 module.exports = function (_game, position, _letter) {
   const game = _game;
+  let cnt = game.attemptsLeft; 
   const rightAnswerArr = game.rightAnswer.split('');
   const letter = _letter.toLowerCase();
   if (rightAnswerArr[position] === letter) {
@@ -12,7 +13,8 @@ module.exports = function (_game, position, _letter) {
     }
     game.currentAnswer = answer.join('');
   }
-  --game.attemptsLeft;
+  --cnt;
+  game.attemptsLeft = cnt;
   if (game.attemptsLeft === 0) game.gameOver = true;
   
   return game;

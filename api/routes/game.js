@@ -4,5 +4,5 @@ const GameController = require('../controllers/game');
 
 
 router.get('/newgame', GameController.get_init_game);
-router.get('/play', GameController.get_play);
+router.post('/play', GameController.post_play);
 module.exports = router;

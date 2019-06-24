@@ -1,15 +1,27 @@
 
 //const storage = window.localStorage;
+let gameOverFlag = false;
+
 window.onload = () => {
   const newGame = document.getElementById('start');
-  console.log(newGame);
+  const answer = document.getElementById('answer');
+  console.log(sendAnswer);
   newGame.onclick = initGame;
+  answer.onclick = sendAnswer;
   initGame();
 }
 
 function initGame() {
+  const _letter = document.getElementById('let');
+  const _pos = document.getElementById('pos');
+  const _res = document.getElementById('result');
+  _res && _res.remove();
+  _letter.value = '';
+  _pos.value = '';
+  gameOverFlag = false;
+
   getInitData()
-    .then(data=> {
+    .then(data => {
       fieldInterface();
     })
     .catch(err => console.error(err));
@@ -36,11 +48,55 @@ function getInitData() {
 
 function fieldInterface() {
   const question = document.getElementById('question');
-  const  tablo = document.getElementById('tablo');
+  const tablo = document.getElementById('tablo');
   const _game = window.localStorage.getItem('game');
-  const game = JSON.parse(_game); 
+  const game = JSON.parse(_game);
   question.innerText = game.task;
   tablo.value = game.currentAnswer;
   console.log('i get game', game);
 }
 
+function sendAnswer() {
+  if (gameOverFlag) return;
+  console.log('send answer fierd');
+  const _letter = document.getElementById('let');
+  const _pos = document.getElementById('pos');
+  const letter = _letter.value;
+  const pos = parseInt(_pos.value) - 1;
+  const game = JSON.parse(window.localStorage.getItem('game')); 
+  const data = {
+    pos: pos,
+    letter: letter,
+    game: game
+  };
+  const url = 'http://localhost:3000/game/play';
+  fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+    .then(data => data.json())
+    .then(data => {
+      console.log(data);
+      if (data.game) {
+        window.localStorage.setItem('game', JSON.stringify(data.game));
+        fieldInterface()
+        console.log('i get data: ', data);
+        if (data.game.gameOver) gameOver((data.game.palyerWin)?'You win!!!': 'You loose :-(');
+      } else {
+        console.error('I don\'t get valid data from API');
+      }
+    })
+    .catch(err => console.error(err));
+}
+
+function gameOver(result) {
+  const hd = document.createElement('h2');
+  hd.textContent = result;
+  hd.id = 'result';
+  document.body.appendChild(hd);
+  gameOverFlag = true;
+}
