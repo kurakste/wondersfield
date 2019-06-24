@@ -1,11 +1,16 @@
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
+const  cors = require('cors');
+
 
 const gameRoutes = require('./api/routes/game');
 
 const bodyParser = require('body-parser');
 
 require('dotenv').config(); 
+app.use(cors({}));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
