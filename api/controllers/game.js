@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.get_init_game = (req, res, next) => {
-    console.log('get init game: ', req);
+    console.log('get init game: ');
+    res.status(400);
+    res.json({
+        error: { message: 'init game' }
+    });
 };
 
 exports.get_play = (req, res, next) => {
-  console.log('get play game: ', req);
+  console.log('get play game: ');
+    res.status(400);
+    res.json({
+        error: { message: 'play game' }
+    });
 }
