@@ -1,0 +1,4 @@
+mongoose.connect(
+    'mongodb+srv://oper:mars1234@cluster0-d6zhm.mongodb.net/test',
+    {useNewUrlParser: true},
+)
