@@ -8,10 +8,12 @@ module.exports = function () {
   const canswer = '*'.repeat(question.answer.length);
 
   return {
+    isGameNew: true,
     task: question.task,
     rightAnswer: question.answer,
     currentAnswer: canswer,
     attemptsLeft: attempts,
+    prevAttempSuccess: true,
     gameOver: false, 
     palyerWin: false,
   }

@@ -13,11 +13,9 @@ window.onload = () => {
 
 function initGame() {
   const _letter = document.getElementById('let');
-  const _pos = document.getElementById('pos');
   const _res = document.getElementById('result');
   _res && _res.remove();
   _letter.value = '';
-  _pos.value = '';
   gameOverFlag = false;
 
   getInitData()
@@ -38,7 +36,6 @@ function getInitData() {
           console.log('i get data: ', data);
           resolve(data);
         } else {
-          console.error('I don\'t get valid data fron API');
           reject('I don\'t get valid data fron API');
         }
       })
@@ -49,10 +46,14 @@ function getInitData() {
 function fieldInterface() {
   const question = document.getElementById('question');
   const tablo = document.getElementById('tablo');
+  const cresult = document.getElementById('cresult');
   const _game = window.localStorage.getItem('game');
   const game = JSON.parse(_game);
   question.innerText = game.task;
   tablo.value = game.currentAnswer;
+  const msg = game.prevAttempSuccess ? 'Ура! Вы угадали!' : 'Ошибка('
+  cresult.innerText = game.isGameNew ? 'Начните игру!' : msg;
+
   console.log('i get game', game);
 }
 
@@ -62,10 +63,8 @@ function sendAnswer() {
   const _letter = document.getElementById('let');
   const _pos = document.getElementById('pos');
   const letter = _letter.value;
-  const pos = parseInt(_pos.value) - 1;
   const game = JSON.parse(window.localStorage.getItem('game')); 
   const data = {
-    pos: pos,
     letter: letter,
     game: game
   };

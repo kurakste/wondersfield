@@ -10,11 +10,10 @@ exports.get_init_game = (req, res, next) => {
 
 exports.post_play = (req, res, next) => {
     const body = req.body;
-    const pos = body.pos;
     const letter = body.letter;
     const game = body.game;
     console.log('game:', game);
-    const _game = gameProcessor(game, pos, letter);
+    const _game = gameProcessor(game, letter);
     console.log('_game: ', _game);
     res.status(200);
     res.json({ game: _game });
